@@ -1,0 +1,16 @@
+{
+  "network": "fuji",
+  "chainId": "43113",
+  "deployedAt": "2026-03-04T13:55:59.016Z",
+  "deployer": "0x78524C741fB2900a6502e7a3A9C6F8B04bB30154",
+  "signingService": "0x2613C0932F5D7F74f8A688E502be8a35D5519dC3",
+  "contracts": {
+    "SoulToken": "0xe6dc828D4FD1188188B1538DC06aA5f4A2ff123b",
+    "GodsToken": "0xc8Fcf9d03cD7FaAaF56466e3423568Fa04898905",
+    "Treasury": "0xdDCAA25d2aF9Db9adF3b29c8656044Ab32220Aaa",
+    "PlayerRegistry": "0x8EF5652A090E5a7584d986A69568969282215521",
+    "SBT": "0x220F092833325FaE59599a53D51349eA1Fc3A03B",
+    "UpgradeNFT": "0x08Bd95D322550B2a17B46598840f1443d5832e71",
+    "Marketplace": "0x81d7cF52c007Cf12F967178eD0eDebb6cbC9eb65"
+  }
+}
