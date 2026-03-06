@@ -38,6 +38,20 @@ export class WalletService {
     );
 
     this.logger.log(`Created wallet for player ${playerId}: ${wallet.address}`);
+
+    try {
+      const tx = await this.contracts.playerRegistry
+        .connect(this.contracts.signerWallet)
+        .registerPlayer(wallet.address);
+      await tx.wait();
+      this.logger.log(`Player registered on-chain: ${wallet.address}`);
+    } catch (err) {
+      // Non-fatal — can be retried via register-player.ts script
+      this.logger.error(
+        `On-chain registration failed for ${wallet.address}`,
+        err,
+      );
+    }
     return { address: wallet.address };
   }
 

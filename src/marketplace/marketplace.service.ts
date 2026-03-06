@@ -28,7 +28,7 @@ export class MarketplaceService {
 
   async execute(
     params: MarketplaceExecuteParams,
-  ): Promise<{ txHash: string; tokenId: bigint }> {
+  ): Promise<{ txHash: string; tokenId: string }> {
     const { playerId, action, typeId, tierId, paymentToken } = params;
 
     const playerWallet = await this.wallets.getSignerForPlayer(playerId);
@@ -44,7 +44,7 @@ export class MarketplaceService {
     }
 
     let tx: ethers.ContractTransactionResponse;
-    let tokenId: bigint;
+    let tokenId: string;
 
     if (action === 'buy') {
       tx = await this.contracts.marketplace
@@ -128,7 +128,7 @@ export class MarketplaceService {
       );
   }
 
-  private extractTokenId(receipt: ethers.TransactionReceipt | null): bigint {
+  private extractTokenId(receipt: ethers.TransactionReceipt | null): string {
     if (!receipt) throw new Error('No receipt from marketplace tx');
 
     // Try topics[3] first (indexed tokenId in Transfer event)
@@ -139,7 +139,7 @@ export class MarketplaceService {
     );
 
     if (transferLog) {
-      return BigInt(transferLog.topics[3]);
+      return BigInt(transferLog.topics[3]).toString();
     }
 
     // Fallback: decode from UpgradeNFT Minted/Transfer event data
@@ -150,6 +150,6 @@ export class MarketplaceService {
     if (!anyTransfer) throw new Error('No Transfer event found in receipt');
 
     // tokenId may be in data if not indexed
-    return BigInt(anyTransfer.data);
+    return BigInt(anyTransfer.data).toString();
   }
 }
