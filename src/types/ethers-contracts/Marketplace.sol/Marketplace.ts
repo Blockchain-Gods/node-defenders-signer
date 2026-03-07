@@ -6,14 +6,14 @@ import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, Typed
   
 export declare namespace Marketplace {
       
-    export type RentalTierStruct = {label: string, duration: BigNumberish, priceSoul: BigNumberish, priceGods: BigNumberish, active: boolean}
+    export type RentalTierStruct = {label: string, duration: BigNumberish, active: boolean}
 
-    export type RentalTierStructOutput = [label: string, duration: bigint, priceSoul: bigint, priceGods: bigint, active: boolean] & {label: string, duration: bigint, priceSoul: bigint, priceGods: bigint, active: boolean }
+    export type RentalTierStructOutput = [label: string, duration: bigint, active: boolean] & {label: string, duration: bigint, active: boolean }
   
     }
 
   export interface MarketplaceInterface extends Interface {
-    getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE" | "OPERATOR_ROLE" | "buyUpgrade" | "computeBuyCost" | "computeRentCost" | "deactivateRentalTier" | "delistUpgrade" | "getActiveTiers" | "getRoleAdmin" | "godsToken" | "grantRole" | "hasRole" | "onERC721Received" | "playerRegistry" | "prices" | "registerRentalTier" | "renounceRole" | "rentUpgrade" | "rentalTiers" | "revokeRole" | "setUpgradePrice" | "soulToken" | "supportsInterface" | "totalRentalTiers" | "treasury" | "upgradeNFT"): FunctionFragment;
+    getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE" | "OPERATOR_ROLE" | "buyUpgrade" | "computeBuyCost" | "computeRentCost" | "deactivateRentalTier" | "delistUpgrade" | "getActiveTiers" | "getRoleAdmin" | "godsToken" | "grantRole" | "hasRole" | "playerRegistry" | "prices" | "registerRentalTier" | "renounceRole" | "rentUpgrade" | "rentalTiers" | "revokeRole" | "setUpgradePrice" | "soulToken" | "supportsInterface" | "totalRentalTiers" | "treasury" | "upgradeNFT"): FunctionFragment;
 
     getEvent(nameOrSignatureOrTopic: "RentalTierDeactivated" | "RentalTierRegistered" | "RoleAdminChanged" | "RoleGranted" | "RoleRevoked" | "UpgradeDelisted" | "UpgradePriceSet" | "UpgradePurchased" | "UpgradeRented"): EventFragment;
 
@@ -29,15 +29,14 @@ encodeFunctionData(functionFragment: 'getRoleAdmin', values: [BytesLike]): strin
 encodeFunctionData(functionFragment: 'godsToken', values?: undefined): string;
 encodeFunctionData(functionFragment: 'grantRole', values: [BytesLike, AddressLike]): string;
 encodeFunctionData(functionFragment: 'hasRole', values: [BytesLike, AddressLike]): string;
-encodeFunctionData(functionFragment: 'onERC721Received', values: [AddressLike, AddressLike, BigNumberish, BytesLike]): string;
 encodeFunctionData(functionFragment: 'playerRegistry', values?: undefined): string;
 encodeFunctionData(functionFragment: 'prices', values: [BigNumberish]): string;
-encodeFunctionData(functionFragment: 'registerRentalTier', values: [string, BigNumberish, BigNumberish, BigNumberish]): string;
+encodeFunctionData(functionFragment: 'registerRentalTier', values: [string, BigNumberish]): string;
 encodeFunctionData(functionFragment: 'renounceRole', values: [BytesLike, AddressLike]): string;
 encodeFunctionData(functionFragment: 'rentUpgrade', values: [AddressLike, BigNumberish, BigNumberish, AddressLike]): string;
 encodeFunctionData(functionFragment: 'rentalTiers', values: [BigNumberish]): string;
 encodeFunctionData(functionFragment: 'revokeRole', values: [BytesLike, AddressLike]): string;
-encodeFunctionData(functionFragment: 'setUpgradePrice', values: [BigNumberish, BigNumberish, BigNumberish]): string;
+encodeFunctionData(functionFragment: 'setUpgradePrice', values: [BigNumberish, BigNumberish, BigNumberish, BigNumberish, BigNumberish]): string;
 encodeFunctionData(functionFragment: 'soulToken', values?: undefined): string;
 encodeFunctionData(functionFragment: 'supportsInterface', values: [BytesLike]): string;
 encodeFunctionData(functionFragment: 'totalRentalTiers', values?: undefined): string;
@@ -56,7 +55,6 @@ decodeFunctionResult(functionFragment: 'getRoleAdmin', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'godsToken', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'grantRole', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result;
-decodeFunctionResult(functionFragment: 'onERC721Received', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'playerRegistry', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'prices', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'registerRentalTier', data: BytesLike): Result;
@@ -86,9 +84,9 @@ decodeFunctionResult(functionFragment: 'upgradeNFT', data: BytesLike): Result;
   
 
     export namespace RentalTierRegisteredEvent {
-      export type InputTuple = [tierId: BigNumberish, label: string, duration: BigNumberish, priceSoul: BigNumberish];
-      export type OutputTuple = [tierId: bigint, label: string, duration: bigint, priceSoul: bigint];
-      export interface OutputObject {tierId: bigint, label: string, duration: bigint, priceSoul: bigint };
+      export type InputTuple = [tierId: BigNumberish, label: string, duration: BigNumberish];
+      export type OutputTuple = [tierId: bigint, label: string, duration: bigint];
+      export interface OutputObject {tierId: bigint, label: string, duration: bigint };
       export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
       export type Filter = TypedDeferredTopicFilter<Event>
       export type Log = TypedEventLog<Event>
@@ -146,9 +144,9 @@ decodeFunctionResult(functionFragment: 'upgradeNFT', data: BytesLike): Result;
   
 
     export namespace UpgradePriceSetEvent {
-      export type InputTuple = [typeId: BigNumberish, buyPriceSoul: BigNumberish, buyPriceGods: BigNumberish];
-      export type OutputTuple = [typeId: bigint, buyPriceSoul: bigint, buyPriceGods: bigint];
-      export interface OutputObject {typeId: bigint, buyPriceSoul: bigint, buyPriceGods: bigint };
+      export type InputTuple = [typeId: BigNumberish, buyPriceSoul: BigNumberish, rentPriceSoul: BigNumberish, buyPriceGods: BigNumberish, rentPriceGods: BigNumberish];
+      export type OutputTuple = [typeId: bigint, buyPriceSoul: bigint, rentPriceSoul: bigint, buyPriceGods: bigint, rentPriceGods: bigint];
+      export interface OutputObject {typeId: bigint, buyPriceSoul: bigint, rentPriceSoul: bigint, buyPriceGods: bigint, rentPriceGods: bigint };
       export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
       export type Filter = TypedDeferredTopicFilter<Event>
       export type Log = TypedEventLog<Event>
@@ -248,7 +246,7 @@ decodeFunctionResult(functionFragment: 'upgradeNFT', data: BytesLike): Result;
 
     
     computeRentCost: TypedContractMethod<
-      [tierId: BigNumberish, paymentToken: AddressLike, ],
+      [typeId: BigNumberish, paymentToken: AddressLike, ],
       [[bigint, bigint] & {total: bigint, fee: bigint }],
       'view'
     >
@@ -311,14 +309,6 @@ decodeFunctionResult(functionFragment: 'upgradeNFT', data: BytesLike): Result;
     
 
     
-    onERC721Received: TypedContractMethod<
-      [arg0: AddressLike, arg1: AddressLike, arg2: BigNumberish, arg3: BytesLike, ],
-      [string],
-      'view'
-    >
-    
-
-    
     playerRegistry: TypedContractMethod<
       [],
       [string],
@@ -329,14 +319,14 @@ decodeFunctionResult(functionFragment: 'upgradeNFT', data: BytesLike): Result;
     
     prices: TypedContractMethod<
       [arg0: BigNumberish, ],
-      [[bigint, bigint, boolean] & {buyPriceSoul: bigint, buyPriceGods: bigint, listed: boolean }],
+      [[bigint, bigint, bigint, bigint, boolean] & {buyPriceSoul: bigint, buyPriceGods: bigint, rentPriceSoul: bigint, rentPriceGods: bigint, listed: boolean }],
       'view'
     >
     
 
     
     registerRentalTier: TypedContractMethod<
-      [label: string, duration: BigNumberish, priceSoul: BigNumberish, priceGods: BigNumberish, ],
+      [label: string, duration: BigNumberish, ],
       [void],
       'nonpayable'
     >
@@ -361,7 +351,7 @@ decodeFunctionResult(functionFragment: 'upgradeNFT', data: BytesLike): Result;
     
     rentalTiers: TypedContractMethod<
       [arg0: BigNumberish, ],
-      [[string, bigint, bigint, bigint, boolean] & {label: string, duration: bigint, priceSoul: bigint, priceGods: bigint, active: boolean }],
+      [[string, bigint, boolean] & {label: string, duration: bigint, active: boolean }],
       'view'
     >
     
@@ -376,7 +366,7 @@ decodeFunctionResult(functionFragment: 'upgradeNFT', data: BytesLike): Result;
 
     
     setUpgradePrice: TypedContractMethod<
-      [typeId: BigNumberish, buyPriceSoul: BigNumberish, buyPriceGods: BigNumberish, ],
+      [typeId: BigNumberish, buyPriceSoul: BigNumberish, rentPriceSoul: BigNumberish, buyPriceGods: BigNumberish, rentPriceGods: BigNumberish, ],
       [void],
       'nonpayable'
     >
@@ -446,7 +436,7 @@ getFunction(nameOrSignature: 'computeBuyCost'): TypedContractMethod<
       'view'
     >;
 getFunction(nameOrSignature: 'computeRentCost'): TypedContractMethod<
-      [tierId: BigNumberish, paymentToken: AddressLike, ],
+      [typeId: BigNumberish, paymentToken: AddressLike, ],
       [[bigint, bigint] & {total: bigint, fee: bigint }],
       'view'
     >;
@@ -485,11 +475,6 @@ getFunction(nameOrSignature: 'hasRole'): TypedContractMethod<
       [boolean],
       'view'
     >;
-getFunction(nameOrSignature: 'onERC721Received'): TypedContractMethod<
-      [arg0: AddressLike, arg1: AddressLike, arg2: BigNumberish, arg3: BytesLike, ],
-      [string],
-      'view'
-    >;
 getFunction(nameOrSignature: 'playerRegistry'): TypedContractMethod<
       [],
       [string],
@@ -497,11 +482,11 @@ getFunction(nameOrSignature: 'playerRegistry'): TypedContractMethod<
     >;
 getFunction(nameOrSignature: 'prices'): TypedContractMethod<
       [arg0: BigNumberish, ],
-      [[bigint, bigint, boolean] & {buyPriceSoul: bigint, buyPriceGods: bigint, listed: boolean }],
+      [[bigint, bigint, bigint, bigint, boolean] & {buyPriceSoul: bigint, buyPriceGods: bigint, rentPriceSoul: bigint, rentPriceGods: bigint, listed: boolean }],
       'view'
     >;
 getFunction(nameOrSignature: 'registerRentalTier'): TypedContractMethod<
-      [label: string, duration: BigNumberish, priceSoul: BigNumberish, priceGods: BigNumberish, ],
+      [label: string, duration: BigNumberish, ],
       [void],
       'nonpayable'
     >;
@@ -517,7 +502,7 @@ getFunction(nameOrSignature: 'rentUpgrade'): TypedContractMethod<
     >;
 getFunction(nameOrSignature: 'rentalTiers'): TypedContractMethod<
       [arg0: BigNumberish, ],
-      [[string, bigint, bigint, bigint, boolean] & {label: string, duration: bigint, priceSoul: bigint, priceGods: bigint, active: boolean }],
+      [[string, bigint, boolean] & {label: string, duration: bigint, active: boolean }],
       'view'
     >;
 getFunction(nameOrSignature: 'revokeRole'): TypedContractMethod<
@@ -526,7 +511,7 @@ getFunction(nameOrSignature: 'revokeRole'): TypedContractMethod<
       'nonpayable'
     >;
 getFunction(nameOrSignature: 'setUpgradePrice'): TypedContractMethod<
-      [typeId: BigNumberish, buyPriceSoul: BigNumberish, buyPriceGods: BigNumberish, ],
+      [typeId: BigNumberish, buyPriceSoul: BigNumberish, rentPriceSoul: BigNumberish, buyPriceGods: BigNumberish, rentPriceGods: BigNumberish, ],
       [void],
       'nonpayable'
     >;
@@ -572,7 +557,7 @@ getEvent(key: 'UpgradeRented'): TypedContractEvent<UpgradeRentedEvent.InputTuple
       RentalTierDeactivated: TypedContractEvent<RentalTierDeactivatedEvent.InputTuple, RentalTierDeactivatedEvent.OutputTuple, RentalTierDeactivatedEvent.OutputObject>;
     
 
-      'RentalTierRegistered(uint256,string,uint64,uint256)': TypedContractEvent<RentalTierRegisteredEvent.InputTuple, RentalTierRegisteredEvent.OutputTuple, RentalTierRegisteredEvent.OutputObject>;
+      'RentalTierRegistered(uint256,string,uint64)': TypedContractEvent<RentalTierRegisteredEvent.InputTuple, RentalTierRegisteredEvent.OutputTuple, RentalTierRegisteredEvent.OutputObject>;
       RentalTierRegistered: TypedContractEvent<RentalTierRegisteredEvent.InputTuple, RentalTierRegisteredEvent.OutputTuple, RentalTierRegisteredEvent.OutputObject>;
     
 
@@ -592,7 +577,7 @@ getEvent(key: 'UpgradeRented'): TypedContractEvent<UpgradeRentedEvent.InputTuple
       UpgradeDelisted: TypedContractEvent<UpgradeDelistedEvent.InputTuple, UpgradeDelistedEvent.OutputTuple, UpgradeDelistedEvent.OutputObject>;
     
 
-      'UpgradePriceSet(uint256,uint256,uint256)': TypedContractEvent<UpgradePriceSetEvent.InputTuple, UpgradePriceSetEvent.OutputTuple, UpgradePriceSetEvent.OutputObject>;
+      'UpgradePriceSet(uint256,uint256,uint256,uint256,uint256)': TypedContractEvent<UpgradePriceSetEvent.InputTuple, UpgradePriceSetEvent.OutputTuple, UpgradePriceSetEvent.OutputObject>;
       UpgradePriceSet: TypedContractEvent<UpgradePriceSetEvent.InputTuple, UpgradePriceSetEvent.OutputTuple, UpgradePriceSetEvent.OutputObject>;
     
 

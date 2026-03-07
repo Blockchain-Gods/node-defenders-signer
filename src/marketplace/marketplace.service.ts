@@ -79,13 +79,10 @@ export class MarketplaceService {
     const [cost] =
       action === 'buy'
         ? await this.contracts.marketplace.computeBuyCost(typeId, soulAddress)
-        : await this.contracts.marketplace.computeRentCost(
-            tierId!,
-            soulAddress,
-          );
+        : await this.contracts.marketplace.computeRentCost(typeId, soulAddress); // tierId removed
 
     const nonce = await this.contracts.soulToken.nonces(playerWallet.address);
-    const deadline = Math.floor(Date.now() / 1000) + 3600; // 1 hour
+    const deadline = Math.floor(Date.now() / 1000) + 3600;
 
     const domain = {
       name: 'Soul',
