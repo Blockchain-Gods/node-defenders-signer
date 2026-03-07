@@ -52,6 +52,16 @@ export class WalletService {
         err,
       );
     }
+
+    try {
+      const tx = await this.contracts.upgradeNFT
+        .connect(this.contracts.signerWallet)
+        .mint(wallet.address, 3); // typeId 3 = Basic Rounds
+      await tx.wait();
+      this.logger.log(`Welcome NFT minted for ${wallet.address}`);
+    } catch (err) {
+      this.logger.error(`Welcome NFT mint failed for ${wallet.address}`, err);
+    }
     return { address: wallet.address };
   }
 
