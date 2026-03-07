@@ -12,6 +12,7 @@ export class MarketplaceController {
 
   @Post('execute')
   async execute(@Body() body: MarketplaceExecuteParams) {
+    console.log(`Executing request with body`, body);
     return this.marketplaceService.execute(body);
   }
 }

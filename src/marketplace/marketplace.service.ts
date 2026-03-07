@@ -39,6 +39,7 @@ export class MarketplaceService {
         ? await this.contracts.soulToken.getAddress()
         : await this.contracts.treasury.godsToken();
 
+    console.log(`[Marketplace.service] playerWallet:`, playerWallet);
     if (paymentToken === 'SOUL') {
       await this.buildAndSubmitPermit(playerWallet, action, typeId, tierId);
     }
@@ -81,6 +82,8 @@ export class MarketplaceService {
         ? await this.contracts.marketplace.computeBuyCost(typeId, soulAddress)
         : await this.contracts.marketplace.computeRentCost(typeId, soulAddress); // tierId removed
 
+    this.logger.log(`Permit spender: ${marketplaceAddress}`);
+    this.logger.log(`Permit amount: ${cost.toString()}`);
     const nonce = await this.contracts.soulToken.nonces(playerWallet.address);
     const deadline = Math.floor(Date.now() / 1000) + 3600;
 

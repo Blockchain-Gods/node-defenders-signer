@@ -13,7 +13,7 @@ export declare namespace Marketplace {
     }
 
   export interface MarketplaceInterface extends Interface {
-    getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE" | "OPERATOR_ROLE" | "buyUpgrade" | "computeBuyCost" | "computeRentCost" | "deactivateRentalTier" | "delistUpgrade" | "getActiveTiers" | "getRoleAdmin" | "godsToken" | "grantRole" | "hasRole" | "playerRegistry" | "prices" | "registerRentalTier" | "renounceRole" | "rentUpgrade" | "rentalTiers" | "revokeRole" | "setUpgradePrice" | "soulToken" | "supportsInterface" | "totalRentalTiers" | "treasury" | "upgradeNFT"): FunctionFragment;
+    getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE" | "OPERATOR_ROLE" | "buyUpgrade" | "computeBuyCost" | "computeRentCost" | "deactivateRentalTier" | "delistUpgrade" | "getActiveTiers" | "getRoleAdmin" | "godsToken" | "grantRole" | "hasRole" | "onERC721Received" | "playerRegistry" | "prices" | "registerRentalTier" | "renounceRole" | "rentUpgrade" | "rentalTiers" | "revokeRole" | "setUpgradePrice" | "soulToken" | "supportsInterface" | "totalRentalTiers" | "treasury" | "upgradeNFT"): FunctionFragment;
 
     getEvent(nameOrSignatureOrTopic: "RentalTierDeactivated" | "RentalTierRegistered" | "RoleAdminChanged" | "RoleGranted" | "RoleRevoked" | "UpgradeDelisted" | "UpgradePriceSet" | "UpgradePurchased" | "UpgradeRented"): EventFragment;
 
@@ -29,6 +29,7 @@ encodeFunctionData(functionFragment: 'getRoleAdmin', values: [BytesLike]): strin
 encodeFunctionData(functionFragment: 'godsToken', values?: undefined): string;
 encodeFunctionData(functionFragment: 'grantRole', values: [BytesLike, AddressLike]): string;
 encodeFunctionData(functionFragment: 'hasRole', values: [BytesLike, AddressLike]): string;
+encodeFunctionData(functionFragment: 'onERC721Received', values: [AddressLike, AddressLike, BigNumberish, BytesLike]): string;
 encodeFunctionData(functionFragment: 'playerRegistry', values?: undefined): string;
 encodeFunctionData(functionFragment: 'prices', values: [BigNumberish]): string;
 encodeFunctionData(functionFragment: 'registerRentalTier', values: [string, BigNumberish]): string;
@@ -55,6 +56,7 @@ decodeFunctionResult(functionFragment: 'getRoleAdmin', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'godsToken', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'grantRole', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result;
+decodeFunctionResult(functionFragment: 'onERC721Received', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'playerRegistry', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'prices', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'registerRentalTier', data: BytesLike): Result;
@@ -309,6 +311,14 @@ decodeFunctionResult(functionFragment: 'upgradeNFT', data: BytesLike): Result;
     
 
     
+    onERC721Received: TypedContractMethod<
+      [arg0: AddressLike, arg1: AddressLike, arg2: BigNumberish, arg3: BytesLike, ],
+      [string],
+      'view'
+    >
+    
+
+    
     playerRegistry: TypedContractMethod<
       [],
       [string],
@@ -473,6 +483,11 @@ getFunction(nameOrSignature: 'grantRole'): TypedContractMethod<
 getFunction(nameOrSignature: 'hasRole'): TypedContractMethod<
       [role: BytesLike, account: AddressLike, ],
       [boolean],
+      'view'
+    >;
+getFunction(nameOrSignature: 'onERC721Received'): TypedContractMethod<
+      [arg0: AddressLike, arg1: AddressLike, arg2: BigNumberish, arg3: BytesLike, ],
+      [string],
       'view'
     >;
 getFunction(nameOrSignature: 'playerRegistry'): TypedContractMethod<

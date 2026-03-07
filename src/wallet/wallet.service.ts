@@ -22,7 +22,9 @@ export class WalletService {
     private readonly contracts: ContractService,
   ) {}
 
-  async createWallet(playerId: string): Promise<{ address: string }> {
+  async createWallet(
+    playerId: string,
+  ): Promise<{ address: string; welcomeTokenId?: string }> {
     const existing = await this.findWallet(playerId);
     if (existing) {
       this.logger.warn(`Wallet already exists for player ${playerId}`);
@@ -30,13 +32,11 @@ export class WalletService {
     }
 
     const wallet = ethers.Wallet.createRandom();
-    const encryptedKey = this.encryption.encrypt(wallet.privateKey.slice(2)); // strip 0x
-
+    const encryptedKey = this.encryption.encrypt(wallet.privateKey.slice(2));
     await this.d1.run(
       `INSERT INTO wallets (player_id, address, encrypted_key) VALUES (?, ?, ?)`,
       [playerId, wallet.address, encryptedKey],
     );
-
     this.logger.log(`Created wallet for player ${playerId}: ${wallet.address}`);
 
     try {
@@ -46,23 +46,39 @@ export class WalletService {
       await tx.wait();
       this.logger.log(`Player registered on-chain: ${wallet.address}`);
     } catch (err) {
-      // Non-fatal — can be retried via register-player.ts script
       this.logger.error(
         `On-chain registration failed for ${wallet.address}`,
         err,
       );
     }
 
+    let welcomeTokenId: string | undefined;
     try {
       const tx = await this.contracts.upgradeNFT
         .connect(this.contracts.signerWallet)
-        .mint(wallet.address, 3); // typeId 3 = Basic Rounds
-      await tx.wait();
-      this.logger.log(`Welcome NFT minted for ${wallet.address}`);
+        .mint(wallet.address, 6);
+      const receipt = await tx.wait();
+      welcomeTokenId = this.extractWelcomeTokenId(receipt) ?? undefined;
+      this.logger.log(
+        `Welcome NFT minted for ${wallet.address}, tokenId: ${welcomeTokenId}`,
+      );
     } catch (err) {
       this.logger.error(`Welcome NFT mint failed for ${wallet.address}`, err);
     }
-    return { address: wallet.address };
+
+    return { address: wallet.address, welcomeTokenId };
+  }
+
+  private extractWelcomeTokenId(
+    receipt: ethers.TransactionReceipt | null,
+  ): string | null {
+    if (!receipt) return null;
+    const transferLog = receipt.logs.find(
+      (log) =>
+        log.topics[0] === ethers.id('Transfer(address,address,uint256)') &&
+        log.topics.length === 4,
+    );
+    return transferLog ? BigInt(transferLog.topics[3]).toString() : null;
   }
 
   async getSignerForPlayer(playerId: string): Promise<ethers.Wallet> {
