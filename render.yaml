@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: node-defenders-signer
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: node dist/main.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ENCRYPTION_KEY
+        sync: false # key used to encrypt/decrypt custodial wallets
+      - key: RPC_URL
+        sync: false # Avalanche Fuji or mainnet RPC
+      - key: PORT
+        value: 3000

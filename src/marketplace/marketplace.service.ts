@@ -84,6 +84,7 @@ export class MarketplaceService {
 
     this.logger.log(`Permit spender: ${marketplaceAddress}`);
     this.logger.log(`Permit amount: ${cost.toString()}`);
+
     const nonce = await this.contracts.soulToken.nonces(playerWallet.address);
     const deadline = Math.floor(Date.now() / 1000) + 3600;
 

@@ -10,6 +10,7 @@ import { FaucetModule } from './faucet/faucet.module';
 import { MintModule } from './mint/mint.module';
 import { StatsModule } from './stats/stats.module';
 import { MarketplaceModule } from './marketplace/marketplace.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { MarketplaceModule } from './marketplace/marketplace.module';
     MintModule,
     StatsModule,
     MarketplaceModule,
+    HealthModule,
   ],
 })
 export class AppModule {}
