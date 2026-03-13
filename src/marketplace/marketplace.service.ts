@@ -77,10 +77,17 @@ export class MarketplaceService {
     const marketplaceAddress = await this.contracts.marketplace.getAddress();
     const soulAddress = await this.contracts.soulToken.getAddress();
 
+    this.logger.log(`Marketplace contract address: ${marketplaceAddress}`);
+    this.logger.log(`SoulToken contract address: ${soulAddress}`);
+
     const [cost] =
       action === 'buy'
         ? await this.contracts.marketplace.computeBuyCost(typeId, soulAddress)
         : await this.contracts.marketplace.computeRentCost(typeId, soulAddress); // tierId removed
+
+    this.logger.log(
+      `computeBuyCost raw cost for typeId=${typeId}: ${cost.toString()}`,
+    );
 
     this.logger.log(`Permit spender: ${marketplaceAddress}`);
     this.logger.log(`Permit amount: ${cost.toString()}`);
@@ -116,7 +123,7 @@ export class MarketplaceService {
     const sig = await playerWallet.signTypedData(domain, types, value);
     const { v, r, s } = ethers.Signature.from(sig);
 
-    await this.contracts.soulToken
+    const permitTx = await this.contracts.soulToken
       .connect(playerWallet)
       .permit(
         playerWallet.address,
@@ -127,6 +134,8 @@ export class MarketplaceService {
         r,
         s,
       );
+
+    await permitTx.wait();
   }
 
   private extractTokenId(receipt: ethers.TransactionReceipt | null): string {
